@@ -1,12 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const app  = express()
-
+const cookieParser = require('cookie-parser')
 const dbconnect = require("./db/db")
-
+const userRoute = require('./Routes/user-route')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 require('dotenv').config();
 
 const corsOptions = {
@@ -18,9 +18,10 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 
+
 const port =  process.env.PORT || 3000
 
-
+app.use("/api", userRoute)
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
